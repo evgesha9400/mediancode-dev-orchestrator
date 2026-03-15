@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mission-control": {
+      "command": "node",
+      "args": ["mission-control/dist/index.js"],
+      "env": {
+        "MISSION_CONTROL_DB": "/Users/evgesha/Documents/Projects/median-code/mission-control/db/mission-control.db"
+      }
+    }
+  }
+}
