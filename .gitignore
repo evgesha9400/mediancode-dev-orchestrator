@@ -1,9 +1,13 @@
-# Child repos (their own git)
-frontend/
-backend/
+# Child repos (symlinks)
+frontend
+backend
 
 # Local database
-db/*.db
+db/*
+!db/.gitkeep
+
+# Claude Code local settings
+.claude/settings.local.json
 
 # OS
 .DS_Store
