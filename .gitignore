@@ -1,0 +1,11 @@
+# Child repos (their own git)
+frontend/
+backend/
+
+# MCP server build artifacts
+mission-control/node_modules/
+mission-control/dist/
+mission-control/db/*.db
+
+# OS
+.DS_Store
