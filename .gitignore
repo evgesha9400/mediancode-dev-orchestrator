@@ -2,10 +2,8 @@
 frontend/
 backend/
 
-# MCP server build artifacts
-mission-control/node_modules/
-mission-control/dist/
-mission-control/db/*.db
+# Local database
+db/*.db
 
 # OS
 .DS_Store
