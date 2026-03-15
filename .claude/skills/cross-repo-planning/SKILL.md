@@ -26,8 +26,8 @@ When an implementation spans both backend and frontend repos, **always split int
 
 | Repo | Path | Plans directory |
 |------|------|-----------------|
-| Backend | `backend/` (symlink → `../median-code-backend`) | `backend/docs/plans/` |
-| Frontend | `frontend/` (symlink → `../median-code-frontend`) | `frontend/docs/plans/` |
+| Backend | `backend/` (symlink → `../mediancode-backend`) | `backend/docs/plans/` |
+| Frontend | `frontend/` (symlink → `../mediancode-frontend`) | `frontend/docs/plans/` |
 
 ## Process
 
