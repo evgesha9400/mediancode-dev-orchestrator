@@ -15,6 +15,6 @@ Always ensure all tests pass, even if failures are pre-existing. If it is unclea
 
 **ALWAYS use the `/commit` skill when creating git commits.** Never write raw `git commit` commands. This applies in ALL contexts: main repo, plan execution, subagent work — no exceptions.
 
-## Frontend: No Worktrees — MANDATORY
+## Frontend: Bun Hardlinks — MANDATORY
 
-**NEVER use git worktrees for the frontend repo.** Bun's hardlinked `node_modules` makes worktree cleanup hang indefinitely on macOS. Use simple feature branches instead.
+**NEVER use `rm -rf` or git worktrees in the frontend repo.** Bun's hardlinked `node_modules` breaks both. Use `find <dir> -delete` for directory removal and feature branches instead of worktrees. See `fe--delete-dirs` skill.
