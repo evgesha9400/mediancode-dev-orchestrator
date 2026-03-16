@@ -15,77 +15,10 @@ stages:
     config:
       skill: executing-plans
       description: Execute the implementation plan
-    document: docs/stages/implement.md
-    children:
-      - name: Write Tests
-        executor: agent
-        config:
-          skill: test-driven-development
-          description: Write failing tests first
-          agent_instructions: docs/stages/implement/write-tests.md
-        exit_conditions:
-          required_artifacts: [test-files]
-          human_approval: false
-        document: docs/stages/implement/write-tests.md
-
-      - name: Write Code
-        executor: agent
-        config:
-          skill: executing-plans
-          description: Make tests pass
-          agent_instructions: docs/stages/implement/write-code.md
-        exit_conditions:
-          required_artifacts: [implementation-commit]
-          human_approval: false
-        document: docs/stages/implement/write-code.md
-
-      - name: Review Code
-        executor: agent
-        config:
-          skill: code-review
-          description: Review implementation against spec
-          agent_instructions: docs/stages/implement/review-code.md
-        exit_conditions:
-          required_artifacts: [review-report]
-          human_approval: false
-        document: docs/stages/implement/review-code.md
-
-      - name: Simplify Code
-        executor: agent
-        config:
-          skill: simplify
-          description: Simplify and refine implementation
-          agent_instructions: docs/stages/implement/simplify-code.md
-        exit_conditions:
-          required_artifacts: [simplification-commit]
-          human_approval: false
-        document: docs/stages/implement/simplify-code.md
-
-      - name: Test
-        executor: agent
-        config:
-          skill: running-tests
-          description: Run all test suites
-          agent_instructions: docs/stages/implement/test.md
-        exit_conditions:
-          required_artifacts: [test-report]
-          human_approval: false
-        document: docs/stages/implement/test.md
-
-      - name: Simplify Tests
-        executor: agent
-        config:
-          skill: simplify
-          description: Simplify and refine tests
-          agent_instructions: docs/stages/implement/simplify-tests.md
-        exit_conditions:
-          required_artifacts: [test-simplification-commit]
-          human_approval: false
-        document: docs/stages/implement/simplify-tests.md
-
     exit_conditions:
-      all_children_complete: true
+      required_artifacts: [implementation-commit]
       human_approval: false
+    document: docs/stages/implement.md
 
   - name: Test
     executor: agent
