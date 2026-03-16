@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is the software development orchestrator for Median Code. It coordinates work across the frontend and backend repos via Mission Control (an external MCP server) and scoped subagents.
+This is the software development orchestrator for Median Code. It coordinates work across the frontend and backend repos via Mission Control (a Python CLI) and scoped subagents.
 
 - `pipelines/` — Pipeline templates (YAML)
 - `docs/stages/` — Living documents for the self-improving learning system
@@ -10,16 +10,27 @@ This is the software development orchestrator for Median Code. It coordinates wo
 - `backend/` — Symlink to the backend repo (FastAPI)
 - `db/` — Local SQLite database for Mission Control (gitignored)
 
-## Mission Control MCP Server
+## Mission Control CLI
 
-Mission Control is an external standalone project at `~/Documents/Projects/mission-control/repos/server/`. It is referenced via `.mcp.json` with an absolute path to the server and a local `./db/mission-control.db` database.
+Mission Control is a Python CLI installed from `~/Documents/Projects/mission-control/`. Install with `cd ~/Documents/Projects/mission-control && poetry install`. The `mc` command uses a local `./db/mission-control.db` database (set via `MC_DB` env var).
+
+Key commands:
+- `mc pipeline create --file pipelines/software-dev.yaml`
+- `mc feature create --title "..." --pipeline <id>`
+- `mc feature get <id>`
+- `mc feature advance <id> [--approved]`
+- `mc step update <feature_id> <stage> [step] --status <status>`
+- `mc service register|link|status`
+- `mc artifact add|get`
+
+All commands output JSON. See `mc --help` for full usage.
 
 ## Cross-Repo Coordination
 
 When working on features that span frontend and backend:
-1. Query Mission Control for current feature status: `list_features`
-2. Check which services are affected: `get_feature_services`
-3. Update progress as you work: `update_step_status`, `update_service_status`
+1. Query Mission Control for current feature status: `mc feature get <id>`
+2. Check which services are affected: `mc feature get <id>` (includes services)
+3. Update progress as you work: `mc step update`, `mc service status`
 4. Read living documents before executing any stage/step
 5. Write observations to living documents after completing work
 
