@@ -1,11 +1,14 @@
 # Session Instructions
 
-## Subagent Skill Scoping — MANDATORY
+## Skill Naming Convention — MANDATORY
 
-Subagents MUST only use skills matching their scope:
-- Frontend subagents: only `fe--*` skills
-- Backend subagents: only `be--*` skills
-- Unscoped skills (no prefix) are for orchestrator use only
+Skills are prefixed to indicate who should load and use them:
+- `fe--*` — Frontend agents only
+- `be--*` — Backend agents only
+- `orch--*` — Orchestrator agent only
+- No prefix — Shared, usable by any agent (orchestrator, frontend, backend)
+
+Agents MUST only load skills matching their scope. The prefix acts as a filter — if the prefix doesn't match your role, do not load the skill.
 
 ## Test Policy
 

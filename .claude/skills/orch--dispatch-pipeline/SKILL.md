@@ -1,5 +1,5 @@
 ---
-name: dispatch-pipeline
+name: orch--dispatch-pipeline
 description: Use when starting work on a feature — creates it in Mission Control, registers services, and orchestrates the plan→verify→implement→verify flow
 ---
 

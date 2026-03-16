@@ -1,5 +1,5 @@
 ---
-name: cross-repo-planning
+name: orch--cross-repo-planning
 description: Use when a brainstorming or design session produces an implementation plan that spans both the backend and frontend repositories, before writing any plan files
 ---
 
