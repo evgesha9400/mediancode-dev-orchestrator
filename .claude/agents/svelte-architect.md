@@ -39,13 +39,29 @@ When reviewing or writing code:
 - Stores = `src/lib/stores/`
 - If 3+ directories follow a pattern, that's the rule — flag deviations
 
+## Visual Consistency Rules — CRITICAL
+
+You CANNOT see the rendered UI. You MUST compensate by being obsessively precise with CSS/Tailwind classes:
+
+1. **Never invent sizing.** Before writing any Tailwind class, find an existing component in the same view and copy its exact classes. If the adjacent component uses `px-3 py-1.5 text-sm`, you use `px-3 py-1.5 text-sm`.
+2. **Every input in a row must match.** If a row has a text input and a select dropdown, they MUST use identical padding, font size, and height classes.
+3. **Read `frontend/CLAUDE.md` Form Component Standards** before writing ANY form UI. The exact classes are specified there.
+4. **Section containers must match.** If query params use `px-3 py-1 bg-mono-950 rounded border border-mono-700`, path params must use the same.
+5. **When in doubt, read the rendered sibling.** Open the component file that renders next to yours and copy its classes verbatim.
+
+Common mistakes to avoid:
+- Using `text-xs` in one section and `text-sm` in an adjacent section
+- Using `px-2 py-1` for inputs when the form standard is `px-3 py-1.5`
+- Making buttons or badges different sizes than their row neighbors
+- Using different border/background colors for sections at the same nesting level
+
 ## Workflow
 
 1. **Analyze** — examine the feature, review existing patterns, check docs
 2. **Evaluate patterns** — does the feature fit? If not, design a unifying pattern
 3. **Restructure** (if needed) — update existing code to match the new pattern first
 4. **Implement** — build the feature using established/updated patterns
-5. **Validate** — review for pattern consistency, no regressions, no tech debt
+5. **Validate** — review for visual consistency (class matching), pattern consistency, no regressions
 
 ## Output Contract
 - Plan writing: output the file path to the plan
