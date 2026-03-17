@@ -46,19 +46,19 @@ Dispatch two scoped agents sequentially (or in parallel if using Agent tool with
 
 **Frontend agent** — `svelte-architect` subagent scoped to `frontend/`:
 - Prompt: Plan Writing template (see design spec) with `{feature_spec_content}` injected
-- Output: `frontend/docs/plans/{feature_slug}.md`
+- Output: `docs/work/{feature_slug}/plan-frontend.md`
 
 **Backend agent** — `senior-code-architect-PY` subagent scoped to `backend/`:
 - Prompt: Plan Writing template with `{feature_spec_content}` injected
-- Output: `backend/docs/plans/{feature_slug}.md`
+- Output: `docs/work/{feature_slug}/plan-backend.md`
 
 After both complete:
 
 ```bash
 mc service status {feature_id} frontend --status completed
 mc service status {feature_id} backend --status completed
-mc artifact add {feature_id} Plan --step "Write Plans" --type implementation-plan --content frontend/docs/plans/{feature_slug}.md
-mc artifact add {feature_id} Plan --step "Write Plans" --type implementation-plan --content backend/docs/plans/{feature_slug}.md
+mc artifact add {feature_id} Plan --step "Write Plans" --type implementation-plan --content docs/work/{feature_slug}/plan-frontend.md
+mc artifact add {feature_id} Plan --step "Write Plans" --type implementation-plan --content docs/work/{feature_slug}/plan-backend.md
 mc step update {feature_id} Plan "Write Plans" --status completed
 ```
 
@@ -138,7 +138,7 @@ Feature is now complete.
 
 ## Agent Prompt Templates
 
-See design spec at `docs/specs/2026-03-16-minimal-pipeline-orchestration-design.md` for the three prompt templates:
+See the pipeline orchestration design spec in the MC repo for the three prompt templates:
 - Scoped Agent — Plan Writing
 - Scoped Agent — Implementation
 - Global Verifier

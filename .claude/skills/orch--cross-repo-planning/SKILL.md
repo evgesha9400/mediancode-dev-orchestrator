@@ -22,12 +22,18 @@ When an implementation spans both backend and frontend repos, **always split int
 - Change is backend-only (no frontend consumers yet)
 - You're executing an existing plan (use `superpowers:executing-plans` instead)
 
-## Repo Paths
+## Paths
 
-| Repo | Path | Plans directory |
-|------|------|-----------------|
-| Backend | `backend/` (symlink → `../mediancode-backend`) | `backend/docs/plans/` |
-| Frontend | `frontend/` (symlink → `../mediancode-frontend`) | `frontend/docs/plans/` |
+| Repo | Path |
+|------|------|
+| Backend | `backend/` (symlink → `../mediancode-backend`) |
+| Frontend | `frontend/` (symlink → `../mediancode-frontend`) |
+
+All plans and specs live in the orchestrator at `docs/work/{feature-name}/`:
+- `docs/work/{feature-name}/spec.md` — design spec
+- `docs/work/{feature-name}/plan-backend.md` — backend plan
+- `docs/work/{feature-name}/plan-frontend.md` — frontend plan
+- Completed work moves to `docs/work/completed/{feature-name}/`
 
 ## Process
 
@@ -39,7 +45,7 @@ Separate all tasks into two groups:
 
 ### Step 2: Write the backend plan
 
-Save to: `backend/docs/plans/YYYY-MM-DD-<feature-name>-impl.md`
+Save to: `docs/work/<feature-name>/plan-backend.md`
 
 Required sections:
 - Header with `> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans`
@@ -53,7 +59,7 @@ Required sections:
 
 ### Step 3: Write the frontend plan
 
-Save to: `frontend/docs/plans/YYYY-MM-DD-<feature-name>-impl.md`
+Save to: `docs/work/<feature-name>/plan-frontend.md`
 
 Required sections:
 - Same structure as backend plan
@@ -64,8 +70,8 @@ Required sections:
 
 For each plan, write a companion prompt file alongside it.
 
-**Backend prompt**: `backend/docs/plans/YYYY-MM-DD-<feature-name>-backend-prompt.md`
-**Frontend prompt**: `frontend/docs/plans/YYYY-MM-DD-<feature-name>-frontend-prompt.md`
+**Backend prompt**: `docs/work/<feature-name>/prompt-backend.md`
+**Frontend prompt**: `docs/work/<feature-name>/prompt-frontend.md`
 
 #### Prompt template
 
