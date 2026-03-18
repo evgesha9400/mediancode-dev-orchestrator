@@ -72,6 +72,20 @@ Before completing any task:
 - Leaving TODO comments about "refactoring later"
 - Partial migrations that leave old code in place
 
+## Immediate Observation Triggers
+
+If any of these occur during your work, record an observation IMMEDIATELY using `mc observation add`, before your next tool call:
+
+- The same error or test failure has occurred more than twice
+- You must significantly deviate from the plan to proceed
+- A skill instruction, tool, or prompt is broken or misleading
+- You are making a decision that changes a shared rule or cross-feature approach
+- You are about to return with incomplete work or unresolved blockers
+
+Do not wait for a commit. Record the observation now, then continue working.
+
+After each `/commit`, the commit skill will prompt you for a separate observation check. Before returning results (success or failure), perform one final observation check.
+
 ## Output Contract
 - Plan writing: output the file path to the plan
 - Implementation: output the commit SHA
