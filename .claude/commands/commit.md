@@ -79,13 +79,11 @@ any of the following that you have NOT already recorded an observation for?
 - **DECISION**: A judgment call between alternatives that could affect future work
 - **FRICTION**: Something harder than it should have been — missing abstraction, unclear convention, tool limitation, or workaround
 
-If YES to any: record one observation per issue using:
+If YES to any and your prompt includes an observation context block:
+use the exact command template from that block to record the observation.
 
-```bash
-mc observation add <feature_id> <stage> --scope <scope> --category <CAT> \
-  --title "..." --detail "..." --resolution "..." \
-  --agent-name <agent> --dispatch-id <id> --attempt <n>
-```
+If YES but no observation context block is in your prompt:
+note the observation in your response so the orchestrator can record it.
 
 If NO: resume immediately. Do not record anything. Do not mention that you checked.
 

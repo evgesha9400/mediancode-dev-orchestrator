@@ -12,25 +12,25 @@ This is the software development orchestrator for Median Code. It coordinates wo
 
 ## Mission Control CLI
 
-Mission Control is a Python CLI installed from `~/Documents/Projects/mission-control/`. Install with `cd ~/Documents/Projects/mission-control && poetry install`. The `mc` command uses a local `./db/mission-control.db` database (set via `MC_DB` env var).
+Mission Control is a Python CLI installed from `~/Documents/Projects/mission-control/`. Install with `cd ~/Documents/Projects/mission-control && poetry install`. The `bin/mc` wrapper handles PATH and database location — always use it instead of bare `mc`.
 
 Key commands:
-- `mc pipeline create --file pipelines/software-dev.yaml`
-- `mc feature create --title "..." --pipeline <id>`
-- `mc feature get <id>`
-- `mc feature advance <id> [--approved]`
-- `mc step update <feature_id> <stage> [step] --status <status>`
-- `mc service register|link|status`
-- `mc artifact add|get`
+- `bin/mc pipeline create --file pipelines/software-dev.yaml`
+- `bin/mc feature create --title "..." --pipeline <id>`
+- `bin/mc feature get <id>`
+- `bin/mc feature advance <id> [--approved]`
+- `bin/mc step update <feature_id> <stage> [step] --status <status>`
+- `bin/mc service register|link|status`
+- `bin/mc artifact add|get`
 
-All commands output JSON. See `mc --help` for full usage.
+All commands output JSON. See `bin/mc --help` for full usage.
 
 ## Cross-Repo Coordination
 
 When working on features that span frontend and backend:
-1. Query Mission Control for current feature status: `mc feature get <id>`
-2. Check which services are affected: `mc feature get <id>` (includes services)
-3. Update progress as you work: `mc step update`, `mc service status`
+1. Query Mission Control for current feature status: `bin/mc feature get <id>`
+2. Check which services are affected: `bin/mc feature get <id>` (includes services)
+3. Update progress as you work: `bin/mc step update`, `bin/mc service status`
 4. Read living documents before executing any stage/step
 5. Write observations to living documents after completing work
 
@@ -50,6 +50,23 @@ When dispatching subagents to work on a specific repo, **always scope them expli
 - **Backend subagents**: "You are working on the backend. Working directory: `backend/`. Only use `be--*` skills. Do not modify frontend code."
 
 Subagents should read the target repo's own CLAUDE.md (`frontend/CLAUDE.md` or `backend/CLAUDE.md`) for full project structure details when they need deep context beyond what is summarized below.
+
+## Observation Protocol — MANDATORY
+
+All implementation subagent dispatches MUST include an observation context block.
+
+### For the orchestrator (dispatching agents):
+1. Run `bin/mc dispatch render <feature_id> <stage> --service-name <svc> --agent-name <agent> --mc-path $(pwd)/bin/mc`
+2. Paste the output block verbatim into the Agent prompt
+3. After the subagent returns, run `bin/mc dispatch verify <dispatch_id>` — do NOT proceed if it fails
+4. After the stage completes, run `bin/mc observation consolidate <feature_id> --output-dir pipelines/software-dev/observations/ --feature-title "<title>"`
+
+The `bin/mc` wrapper handles PATH and database location. Never use bare `mc`.
+
+### For subagents (if you see an observation context block in your prompt):
+- Record observations immediately when trigger conditions fire — don't wait for a commit
+- Use the exact command template from the block
+- Run `dispatch finalize` before returning your results
 
 ---
 
