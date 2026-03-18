@@ -30,6 +30,17 @@ For each task, in order:
 6. Mark as completed
 7. **Immediately proceed to the next task — do NOT pause, do NOT wait for approval**
 
+### Observation Triggers (Always Active)
+
+Throughout execution, if any of these occur, record an observation IMMEDIATELY using `mc observation add`:
+
+- The same error or test failure has occurred more than twice
+- You must significantly deviate from the plan to proceed
+- A skill instruction, tool, or prompt is broken or misleading
+- You are making a decision that changes a shared rule or cross-feature approach
+
+The `/commit` skill will also prompt an observation check after each commit. Before returning final results, perform one last observation check.
+
 ### Step 3: Final Verification
 
 After all tasks are complete:
