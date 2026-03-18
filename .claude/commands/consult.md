@@ -114,7 +114,7 @@ Once all three respond, present:
 ## Important Notes
 
 - ALWAYS use `gemini-3.1-pro-preview` for Gemini (latest model)
-- ALWAYS use `gpt-5.4` for Codex (already configured as default with xhigh reasoning)
+- ALWAYS use `gpt-5.4` for Codex with xhigh reasoning (already configured as default)
 - NEVER summarize individual responses unless they exceed ~500 words — the user wants full reasoning
 - If a model fails to launch (wrong model name, sandbox error), report the error and retry with a fix
 - The user may ask follow-up questions — you can resume any of the three agents to continue the conversation
