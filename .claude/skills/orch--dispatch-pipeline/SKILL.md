@@ -45,11 +45,13 @@ mc step update {feature_id} Plan "Write Plans" --status in_progress
 Dispatch two scoped agents sequentially (or in parallel if using Agent tool with multiple calls):
 
 **Frontend agent** — `svelte-architect` subagent scoped to `frontend/`:
-- Prompt: Plan Writing template (see design spec) with `{feature_spec_content}` injected
+- Prompt: Plan Writing template with `{feature_spec_content}` injected
+- Include in prompt: `feature_id: "{feature_id}"`, `dispatch_id: "fe-plan-{feature_slug}-{attempt}"`, `attempt: {attempt_number}`, `stage: "plan"`, `feature: "{feature_slug}"`
 - Output: `docs/work/{feature_slug}/plan-frontend.md`
 
 **Backend agent** — `senior-code-architect-PY` subagent scoped to `backend/`:
 - Prompt: Plan Writing template with `{feature_spec_content}` injected
+- Include in prompt: `feature_id: "{feature_id}"`, `dispatch_id: "be-plan-{feature_slug}-{attempt}"`, `attempt: {attempt_number}`, `stage: "plan"`, `feature: "{feature_slug}"`
 - Output: `docs/work/{feature_slug}/plan-backend.md`
 
 After both complete:
@@ -61,6 +63,16 @@ mc artifact add {feature_id} Plan --step "Write Plans" --type implementation-pla
 mc artifact add {feature_id} Plan --step "Write Plans" --type implementation-plan --content docs/work/{feature_slug}/plan-backend.md
 mc step update {feature_id} Plan "Write Plans" --status completed
 ```
+
+**Collect Observations:**
+
+```bash
+mc observation consolidate {feature_id} \
+  --output-dir pipelines/software-dev/observations/ \
+  --feature-title "{feature_title}"
+```
+
+If observations were written, commit the updated observation files.
 
 **Step: Plan Review**
 
@@ -104,6 +116,10 @@ mc step update {feature_id} Implement Code --status in_progress
 
 Dispatch scoped agents in parallel with their respective plans as input.
 
+**Include in each dispatch prompt:**
+- Frontend: `feature_id: "{feature_id}"`, `dispatch_id: "fe-implement-{feature_slug}-{attempt}"`, `attempt: {attempt_number}`, `stage: "implement"`, `feature: "{feature_slug}"`
+- Backend: `feature_id: "{feature_id}"`, `dispatch_id: "be-implement-{feature_slug}-{attempt}"`, `attempt: {attempt_number}`, `stage: "implement"`, `feature: "{feature_slug}"`
+
 After both complete:
 
 ```bash
@@ -113,6 +129,16 @@ mc artifact add {feature_id} Implement --step Code --type implementation-commit 
 mc artifact add {feature_id} Implement --step Code --type implementation-commit --content {backend_sha}
 mc step update {feature_id} Implement Code --status completed
 ```
+
+**Collect Observations:**
+
+```bash
+mc observation consolidate {feature_id} \
+  --output-dir pipelines/software-dev/observations/ \
+  --feature-title "{feature_title}"
+```
+
+If observations were written, commit the updated observation files.
 
 **Step: Code Review** — same as Plan Review but checking actual code.
 
@@ -149,3 +175,5 @@ See the pipeline orchestration design spec in the MC repo for the three prompt t
 - If Code Review fails: loop back to Code step with feedback
 - If Plan Review fails: loop back to Write Plans step with feedback
 - If `mc feature advance` fails: show validation errors, do not advance
+- After any agent crash or failure: run `mc observation consolidate` before retrying. Crashed agents may have recorded immediate-write observations.
+- Record an orchestrator observation for any crash: `mc observation add {feature_id} {stage} --scope orch --category PROBLEM --title "..." --detail "..." --resolution "..." --agent-name orchestrator`
