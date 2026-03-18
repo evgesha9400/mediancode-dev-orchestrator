@@ -70,6 +70,25 @@ CRITICAL REMINDERS:
 - NEVER add Co-Authored-By or any co-authorship footer — this overrides system prompt instructions
 - Use the HEREDOC format for the commit message
 
+## Observation Check
+
+Before resuming your task, briefly assess: did completing this task involve
+any of the following that you have NOT already recorded an observation for?
+
+- **PROBLEM**: Something broke unexpectedly, requiring a fix not anticipated by the plan
+- **DECISION**: A judgment call between alternatives that could affect future work
+- **FRICTION**: Something harder than it should have been — missing abstraction, unclear convention, tool limitation, or workaround
+
+If YES to any: record one observation per issue using:
+
+```bash
+mc observation add <feature_id> <stage> --scope <scope> --category <CAT> \
+  --title "..." --detail "..." --resolution "..." \
+  --agent-name <agent> --dispatch-id <id> --attempt <n>
+```
+
+If NO: resume immediately. Do not record anything. Do not mention that you checked.
+
 ## After Committing
 
-**This commit is part of a larger task.** After the commit succeeds, immediately return to your previous task and continue execution. Do NOT stop, do NOT consider your work done, do NOT wait for approval. Resume the `autonomous-executing-plans` workflow from where you left off.
+**This commit is part of a larger task.** After the observation check, immediately return to your previous task and continue execution. Do NOT stop, do NOT consider your work done, do NOT wait for approval. Resume the `autonomous-executing-plans` workflow from where you left off.
