@@ -53,13 +53,23 @@ Subagents should read the target repo's own CLAUDE.md (`frontend/CLAUDE.md` or `
 
 ## Observation Protocol
 
-When working on **pipeline-tracked features** (via `orch--dispatch-pipeline` skill), the orchestrator must:
-1. Run `bin/mc dispatch render` to generate an observation context block
-2. Paste it into the subagent's prompt
-3. Run `bin/mc dispatch verify` after the subagent returns
-4. Run `bin/mc observation consolidate` after the stage completes
+Observations capture learnings (problems, decisions, friction) into living documents. They work for ALL work — pipeline features, ad-hoc fixes, iteration, exploration.
 
-For **ad-hoc work** (bug fixes, iteration, quick changes), no observation ceremony is needed. Use any agent type freely.
+### When delegating to a subagent:
+1. Generate context: `bin/mc dispatch render --topic <implement|plan|explore> --service-name <svc> --agent-name <agent> --mc-path $(pwd)/bin/mc [--feature-id <id>]`
+2. Paste the output block into the subagent prompt
+3. After the subagent returns: `bin/mc dispatch verify <dispatch_id>`
+
+### When working directly (no subagent):
+Record observations immediately when you encounter problems, make decisions, or hit friction:
+```
+bin/mc observation add --topic <implement|plan|explore> --scope <fe|be|orch> --agent-name <name> --category PROBLEM|DECISION|FRICTION --title "..." --detail "..." --resolution "..." [--feature-id <id>]
+```
+
+### Consolidating:
+```
+bin/mc observation consolidate --output-dir pipelines/software-dev/observations/ [--feature-id <id>] [--title "..."]
+```
 
 The `bin/mc` wrapper handles PATH and database location. Never use bare `mc`.
 

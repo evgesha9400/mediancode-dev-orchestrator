@@ -74,7 +74,7 @@ Before completing any task:
 
 ## Immediate Observation Triggers
 
-If any of these occur during your work, record an observation IMMEDIATELY using `mc observation add`, before your next tool call:
+If any of these occur during your work, record an observation IMMEDIATELY using the `mc observation add` command from your observation context block (e.g. `bin/mc observation add --topic <topic> --scope be --agent-name senior-code-architect-PY --category PROBLEM --title "..." --detail "..." --resolution "..." [--feature-id <id>] [--dispatch-id <id>]`), before your next tool call:
 
 - The same error or test failure has occurred more than twice
 - You must significantly deviate from the plan to proceed

@@ -45,13 +45,13 @@ bin/mc step update {feature_id} Plan "Write Plans" --status in_progress
 Dispatch two scoped agents sequentially (or in parallel if using Agent tool with multiple calls):
 
 **Frontend agent** — `svelte-architect` subagent scoped to `frontend/`:
-- Generate observation context: `bin/mc dispatch render {feature_id} plan --service-name frontend --agent-name svelte-architect --mc-path $(pwd)/bin/mc`
+- Generate observation context: `bin/mc dispatch render --topic plan --service-name frontend --agent-name svelte-architect --mc-path $(pwd)/bin/mc --feature-id {feature_id}`
 - Include the full output block in the Agent prompt
 - Prompt: Plan Writing template with `{feature_spec_content}` injected + observation context block
 - Output: `docs/work/{feature_slug}/plan-frontend.md`
 
 **Backend agent** — `senior-code-architect-PY` subagent scoped to `backend/`:
-- Generate observation context: `bin/mc dispatch render {feature_id} plan --service-name backend --agent-name senior-code-architect-PY --mc-path $(pwd)/bin/mc`
+- Generate observation context: `bin/mc dispatch render --topic plan --service-name backend --agent-name senior-code-architect-PY --mc-path $(pwd)/bin/mc --feature-id {feature_id}`
 - Include the full output block in the Agent prompt
 - Prompt: Plan Writing template with `{feature_spec_content}` injected + observation context block
 - Output: `docs/work/{feature_slug}/plan-backend.md`
@@ -78,9 +78,10 @@ bin/mc step update {feature_id} Plan "Write Plans" --status completed
 **Collect Observations:**
 
 ```bash
-bin/mc observation consolidate {feature_id} \
+bin/mc observation consolidate \
   --output-dir pipelines/software-dev/observations/ \
-  --feature-title "{feature_title}"
+  --feature-id {feature_id} \
+  --title "{feature_title}"
 ```
 
 If observations were written, commit the updated observation files.
@@ -128,12 +129,12 @@ bin/mc step update {feature_id} Implement Code --status in_progress
 Dispatch scoped agents in parallel with their respective plans as input.
 
 **Frontend agent** — `svelte-architect` subagent scoped to `frontend/`:
-- Generate observation context: `bin/mc dispatch render {feature_id} implement --service-name frontend --agent-name svelte-architect --mc-path $(pwd)/bin/mc`
+- Generate observation context: `bin/mc dispatch render --topic implement --service-name frontend --agent-name svelte-architect --mc-path $(pwd)/bin/mc --feature-id {feature_id}`
 - Include the full output block in the Agent prompt
 - Prompt: Implementation template with plan content injected + observation context block
 
 **Backend agent** — `senior-code-architect-PY` subagent scoped to `backend/`:
-- Generate observation context: `bin/mc dispatch render {feature_id} implement --service-name backend --agent-name senior-code-architect-PY --mc-path $(pwd)/bin/mc`
+- Generate observation context: `bin/mc dispatch render --topic implement --service-name backend --agent-name senior-code-architect-PY --mc-path $(pwd)/bin/mc --feature-id {feature_id}`
 - Include the full output block in the Agent prompt
 - Prompt: Implementation template with plan content injected + observation context block
 
@@ -159,9 +160,10 @@ bin/mc step update {feature_id} Implement Code --status completed
 **Collect Observations:**
 
 ```bash
-bin/mc observation consolidate {feature_id} \
+bin/mc observation consolidate \
   --output-dir pipelines/software-dev/observations/ \
-  --feature-title "{feature_title}"
+  --feature-id {feature_id} \
+  --title "{feature_title}"
 ```
 
 If observations were written, commit the updated observation files.
@@ -202,4 +204,4 @@ See the pipeline orchestration design spec in the MC repo for the three prompt t
 - If Plan Review fails: loop back to Write Plans step with feedback
 - If `bin/mc feature advance` fails: show validation errors, do not advance
 - After any agent crash or failure: run `bin/mc observation consolidate` before retrying. Crashed agents may have recorded immediate-write observations.
-- Record an orchestrator observation for any crash: `bin/mc observation add {feature_id} {stage} --scope orch --category PROBLEM --title "..." --detail "..." --resolution "..." --agent-name orchestrator`
+- Record an orchestrator observation for any crash: `bin/mc observation add --topic <topic> --scope orch --category PROBLEM --title "..." --detail "..." --resolution "..." --agent-name orchestrator --feature-id {feature_id}`
