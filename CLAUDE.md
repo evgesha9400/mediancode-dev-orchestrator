@@ -51,22 +51,17 @@ When dispatching subagents to work on a specific repo, **always scope them expli
 
 Subagents should read the target repo's own CLAUDE.md (`frontend/CLAUDE.md` or `backend/CLAUDE.md`) for full project structure details when they need deep context beyond what is summarized below.
 
-## Observation Protocol — MANDATORY
+## Observation Protocol
 
-All implementation subagent dispatches MUST include an observation context block.
+When working on **pipeline-tracked features** (via `orch--dispatch-pipeline` skill), the orchestrator must:
+1. Run `bin/mc dispatch render` to generate an observation context block
+2. Paste it into the subagent's prompt
+3. Run `bin/mc dispatch verify` after the subagent returns
+4. Run `bin/mc observation consolidate` after the stage completes
 
-### For the orchestrator (dispatching agents):
-1. Run `bin/mc dispatch render <feature_id> <stage> --service-name <svc> --agent-name <agent> --mc-path $(pwd)/bin/mc`
-2. Paste the output block verbatim into the Agent prompt
-3. After the subagent returns, run `bin/mc dispatch verify <dispatch_id>` — do NOT proceed if it fails
-4. After the stage completes, run `bin/mc observation consolidate <feature_id> --output-dir pipelines/software-dev/observations/ --feature-title "<title>"`
+For **ad-hoc work** (bug fixes, iteration, quick changes), no observation ceremony is needed. Use any agent type freely.
 
 The `bin/mc` wrapper handles PATH and database location. Never use bare `mc`.
-
-### For subagents (if you see an observation context block in your prompt):
-- Record observations immediately when trigger conditions fire — don't wait for a commit
-- Use the exact command template from the block
-- Run `dispatch finalize` before returning your results
 
 ---
 
