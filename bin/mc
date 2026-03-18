@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Mission Control wrapper — resolves MC_DB dynamically and uses Poetry
+# to run mc so subagents can call it from any working directory.
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export MC_DB="${REPO_ROOT}/db/mission-control.db"
+MC_INSTALL="$(cd "${REPO_ROOT}/../../.." 2>/dev/null && pwd)/mission-control"
+exec poetry -C "${MC_INSTALL}" run mc "$@"
