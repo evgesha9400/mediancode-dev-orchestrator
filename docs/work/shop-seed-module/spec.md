@@ -119,7 +119,7 @@ Customer `has_many` Products (bidirectional):
 | Forward | Customer | Product | products | has_many | false |
 | Inverse | Product | Customer | customer | references | true |
 
-The runner creates the forward relationship on Customer via `POST /objects/{customer_id}/relationships`, then creates the inverse on Product, then links their `inverse_id` fields.
+The runner creates the forward relationship on Customer via `POST /objects/{customer_id}/relationships`. The API automatically creates the inverse relationship on Product and links their `inverse_id` fields — only one API call is needed.
 
 #### API
 
