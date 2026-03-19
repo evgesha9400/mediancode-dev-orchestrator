@@ -75,17 +75,6 @@ bin/mc artifact add {feature_id} Plan --step "Write Plans" --type implementation
 bin/mc step update {feature_id} Plan "Write Plans" --status completed
 ```
 
-**Collect Observations:**
-
-```bash
-bin/mc observation consolidate \
-  --output-dir pipelines/software-dev/observations/ \
-  --feature-id {feature_id} \
-  --title "{feature_title}"
-```
-
-If observations were written, commit the updated observation files.
-
 **Step: Plan Review**
 
 ```bash
@@ -157,17 +146,6 @@ bin/mc artifact add {feature_id} Implement --step Code --type implementation-com
 bin/mc step update {feature_id} Implement Code --status completed
 ```
 
-**Collect Observations:**
-
-```bash
-bin/mc observation consolidate \
-  --output-dir pipelines/software-dev/observations/ \
-  --feature-id {feature_id} \
-  --title "{feature_title}"
-```
-
-If observations were written, commit the updated observation files.
-
 **Step: Code Review** — same as Plan Review but checking actual code.
 
 ```bash
@@ -203,5 +181,4 @@ See the pipeline orchestration design spec in the MC repo for the three prompt t
 - If Code Review fails: loop back to Code step with feedback
 - If Plan Review fails: loop back to Write Plans step with feedback
 - If `bin/mc feature advance` fails: show validation errors, do not advance
-- After any agent crash or failure: run `bin/mc observation consolidate` before retrying. Crashed agents may have recorded immediate-write observations.
-- Record an orchestrator observation for any crash: `bin/mc observation add --topic <topic> --scope orch --category PROBLEM --title "..." --detail "..." --resolution "..." --agent-name orchestrator --feature-id {feature_id}`
+- After any agent crash or failure: the observer daemon automatically captures observations from the session transcript. No manual consolidation needed.

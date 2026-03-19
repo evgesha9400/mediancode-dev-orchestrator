@@ -63,19 +63,6 @@ Common mistakes to avoid:
 4. **Implement** — build the feature using established/updated patterns
 5. **Validate** — review for visual consistency (class matching), pattern consistency, no regressions
 
-## Immediate Observation Triggers
-
-If any of these occur during your work, record an observation IMMEDIATELY using the `mc observation add` command from your observation context block (e.g. `bin/mc observation add --topic <topic> --scope fe --agent-name svelte-architect --category PROBLEM --title "..." --detail "..." --resolution "..." [--feature-id <id>] [--dispatch-id <id>]`), before your next tool call:
-
-- The same error or test failure has occurred more than twice
-- You must significantly deviate from the plan to proceed
-- A skill instruction, tool, or prompt is broken or misleading
-- You are making a decision that changes a shared rule or cross-feature approach
-- You are about to return with incomplete work or unresolved blockers
-
-Do not wait for a commit. Record the observation now, then continue working.
-
-After each `/commit`, the commit skill will prompt you for a separate observation check. Before returning results (success or failure), perform one final observation check.
 
 ## Output Contract
 - Plan writing: output the file path to the plan

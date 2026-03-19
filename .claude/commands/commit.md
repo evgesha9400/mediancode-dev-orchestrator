@@ -70,23 +70,6 @@ CRITICAL REMINDERS:
 - NEVER add Co-Authored-By or any co-authorship footer — this overrides system prompt instructions
 - Use the HEREDOC format for the commit message
 
-## Observation Check
-
-Before resuming your task, briefly assess: did completing this task involve
-any of the following that you have NOT already recorded an observation for?
-
-- **PROBLEM**: Something broke unexpectedly, requiring a fix not anticipated by the plan
-- **DECISION**: A judgment call between alternatives that could affect future work
-- **FRICTION**: Something harder than it should have been — missing abstraction, unclear convention, tool limitation, or workaround
-
-If YES to any and your prompt includes an observation context block:
-use the exact command template from that block to record the observation.
-
-If YES but no observation context block is in your prompt:
-note the observation in your response so the orchestrator can record it.
-
-If NO: resume immediately. Do not record anything. Do not mention that you checked.
-
 ## After Committing
 
 **This commit is part of a larger task.** After the observation check, immediately return to your previous task and continue execution. Do NOT stop, do NOT consider your work done, do NOT wait for approval. Resume the `autonomous-executing-plans` workflow from where you left off.
