@@ -18,6 +18,10 @@ Always ensure all tests pass, even if failures are pre-existing. If it is unclea
 
 **ALWAYS use the `/commit` skill when creating git commits.** Never write raw `git commit` commands. This applies in ALL contexts: main repo, plan execution, subagent work — no exceptions.
 
+## Git Worktrees — BANNED PROJECT-WIDE
+
+**NEVER use git worktrees in any repo.** Worktree cleanup is unreliable when subagents crash — stale branches, orphaned index files, and leaked directories accumulate. `EnterWorktree` and `ExitWorktree` are blocked via `deny` list in `.claude/settings.json` across all repos. Use feature branches instead.
+
 ## Frontend: Bun Hardlinks — MANDATORY
 
-**NEVER use `rm -rf` or git worktrees in the frontend repo.** Bun's hardlinked `node_modules` breaks both. Use `find <dir> -delete` for directory removal and feature branches instead of worktrees. See `fe--delete-dirs` skill.
+**NEVER use `rm -rf` in the frontend repo.** Bun's hardlinked `node_modules` breaks `rm -rf` on macOS. Use `find <dir> -delete` for directory removal. See `fe--delete-dirs` skill.

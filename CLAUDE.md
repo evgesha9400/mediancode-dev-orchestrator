@@ -42,12 +42,19 @@ Pipeline templates live in `pipelines/` as YAML files. See `pipelines/software-d
 
 Living documents in `docs/stages/` accumulate learnings across features. Agents read them before executing and write observations after completing work.
 
+## Banned Git Commands — MANDATORY
+
+- **`git worktree`** — Unreliable cleanup when subagents crash (stale branches, orphaned index files, leaked directories). Blocked at the tool level via `deny` list in `.claude/settings.json` across all repos. Use feature branches instead.
+- **`git filter-branch`** — Deprecated. Leaves ghost files on disk (rewrites history without issuing working-tree deletions). Use `git filter-repo` if history rewriting is absolutely necessary.
+
 ## Subagent Scoping — MANDATORY
 
 When dispatching subagents to work on a specific repo, **always scope them explicitly**:
 
 - **Frontend subagents**: "You are working on the frontend. Working directory: `frontend/`. Only use `fe--*` skills. Do not modify backend code."
 - **Backend subagents**: "You are working on the backend. Working directory: `backend/`. Only use `be--*` skills. Do not modify frontend code."
+
+Never dispatch two write-enabled subagents to the same repo simultaneously. The `.git` directory is shared mutable state — concurrent git operations cause index lock contention and stale index files. The pipeline handles this by scoping agents to different repos. For ad-hoc work, wait for one agent to finish before dispatching another to the same repo.
 
 Subagents should read the target repo's own CLAUDE.md (`frontend/CLAUDE.md` or `backend/CLAUDE.md`) for full project structure details when they need deep context beyond what is summarized below.
 
@@ -97,7 +104,7 @@ PUBLIC_API_BASE_URL=https://api.dev.mediancode.com/v1 bunx playwright test --pro
 - **Component directories**: ONLY `.svelte` files + one `index.ts` barrel export. NEVER put `.ts` type files here.
 - **Shared types**: ALL shared non-component types go in `src/lib/types/index.ts`.
 - **Import from barrels**: `import { Table, Drawer } from '$lib/components'` — never import individual files.
-- **No worktrees**: Bun's hardlinked `node_modules` makes worktree cleanup hang on macOS. Use feature branches.
+- **No `rm -rf`**: Bun's hardlinked `node_modules` breaks `rm -rf` on macOS. Use `find <dir> -delete`. See `fe--delete-dirs` skill.
 - **structuredClone fails on reactive proxies**: Use `JSON.parse(JSON.stringify(item))` instead.
 - **`.svelte.ts` files**: Use `fromStore()` from `svelte/store`, NOT `$storeName` syntax.
 

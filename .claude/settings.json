@@ -1,2 +1,21 @@
 {
+  "permissions": {
+    "deny": [
+      "EnterWorktree",
+      "ExitWorktree"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bin/git-health-check.sh",
+            "statusMessage": "Checking git health..."
+          }
+        ]
+      }
+    ]
+  }
 }

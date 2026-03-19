@@ -49,7 +49,7 @@ After all tasks are complete:
 
 **Do NOT:**
 - Use superpowers:finishing-a-development-branch
-- Use superpowers:using-git-worktrees
+- Use superpowers:using-git-worktrees (project-wide ban — all repos, not just frontend)
 - Use superpowers:subagent-driven-development
 - Stop to ask for human input
 - Present options and wait for a choice
