@@ -58,6 +58,23 @@ Never dispatch two write-enabled subagents to the same repo simultaneously. The 
 
 Subagents should read the target repo's own CLAUDE.md (`frontend/CLAUDE.md` or `backend/CLAUDE.md`) for full project structure details when they need deep context beyond what is summarized below.
 
+### Serena Context for Subagents
+
+Subagents inherit MCP server connections but NOT CLAUDE.md instructions. You MUST paste the following block into every subagent prompt that involves code exploration or modification:
+
+```
+## Code Navigation Tools
+You have access to Serena MCP tools for semantic code analysis. PREFER these over built-in tools:
+- `mcp__plugin_serena_serena__find_symbol` — find a class/function/method by name
+- `mcp__plugin_serena_serena__find_referencing_symbols` — find all references to a symbol
+- `mcp__plugin_serena_serena__get_symbols_overview` — understand file structure (classes, methods)
+- `mcp__plugin_serena_serena__replace_symbol_body` — replace a function/method body
+- `mcp__plugin_serena_serena__replace_content` — targeted regex/string replacement within files
+- `mcp__plugin_serena_serena__insert_after_symbol` / `insert_before_symbol` — insert code relative to a symbol
+Use Grep/Glob/Read only for non-code searches (string literals, config values, file names).
+Decision rule: if the target is a code symbol, use Serena. If it is a text string, use Grep.
+```
+
 ## Observation Protocol
 
 Observations capture learnings (problems, decisions, friction) into living documents. They work for ALL work — pipeline features, ad-hoc fixes, iteration, exploration.
