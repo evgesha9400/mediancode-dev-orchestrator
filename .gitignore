@@ -9,5 +9,8 @@ db/*
 # Claude Code local settings
 .claude/settings.local.json
 
+# Serena
+.serena/
+
 # OS
 .DS_Store
