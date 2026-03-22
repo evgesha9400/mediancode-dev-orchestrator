@@ -99,6 +99,12 @@ Execute the plan task-by-task following these rules:
 
 **REQUIRED SUB-SKILL:** Use superpowers:executing-plans to implement this plan.
 
+## Branch Policy — MANDATORY
+
+**Do NOT create a new branch. Do NOT run `git checkout -b`, `git switch -c`, or any branch-creation command.**
+
+Commit directly to the current branch. The orchestrator manages branching — subagents never create branches.
+
 ## Scope
 
 - **Tasks**: <N> tasks across <M> parts
@@ -138,3 +144,4 @@ Each plan (backend and frontend) must pass ALL of these:
 | Plan assumes context from design session | Plan must stand alone — include architecture summary |
 | Forgetting to write prompts | Prompts are mandatory — write them immediately after plans |
 | Frontend plan says "deploy backend first" without path | Include the exact file path to the backend plan |
+| Subagent creates a feature branch | Branch Policy section in prompt template prevents this — never omit it |

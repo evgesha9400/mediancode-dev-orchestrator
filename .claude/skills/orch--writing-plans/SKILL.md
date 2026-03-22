@@ -102,6 +102,8 @@ Use the /commit skill. NEVER write raw `git commit` commands.
 - Exact commands with expected output (use `poetry run pytest` for MC, `bun run` for frontend)
 - Use /commit skill for all commits — never raw git commit
 - DRY, YAGNI, TDD, frequent commits
+- **No new branches** — subagents commit directly to the current branch. Include this explicitly in any prompt you write for a subagent:
+  > "Do NOT create a new branch. Do NOT run `git checkout -b` or `git switch -c`. Commit directly to the current branch."
 
 ## Plan Review Loop
 
