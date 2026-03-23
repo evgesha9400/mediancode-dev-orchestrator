@@ -48,7 +48,7 @@ Separate all tasks into two groups:
 Save to: `docs/work/<feature-name>/plan-backend.md`
 
 Required sections:
-- Header with `> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans`
+- Header with `> **For Claude:** REQUIRED SUB-SKILL: Use autonomous-executing-plans`
 - **Goal**: One sentence
 - **Architecture**: How the pieces fit together
 - **Tech Stack**: Python, FastAPI, SQLAlchemy, Pydantic, Alembic, pytest, etc.
@@ -97,7 +97,7 @@ Execute the plan task-by-task following these rules:
 5. Zero failures is the only acceptable outcome
 6. If a test fails, fix it before proceeding — do not accumulate debt
 
-**REQUIRED SUB-SKILL:** Use superpowers:executing-plans to implement this plan.
+**REQUIRED SUB-SKILL:** Use autonomous-executing-plans to implement this plan.
 
 ## Branch Policy — MANDATORY
 
