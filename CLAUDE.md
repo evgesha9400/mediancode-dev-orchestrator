@@ -141,8 +141,8 @@ FastAPI backend — two packages: `api_craft` (code generation library) and `api
 ```bash
 cd backend/
 poetry install                    # Install dependencies
-make test                         # Run unit tests
-make test-e2e                     # Run E2E tests
+make test                         # Run all tests (mirrors CI — needs `make db` for full coverage)
+make test-e2e                     # Run E2E tests only
 poetry run pytest tests/test_e2e.py::TestItemsAPI::test_list_items -v  # Single test
 poetry run black src/ tests/      # Format code
 make clean                        # Clean caches
@@ -161,7 +161,7 @@ InputAPI (JSON) → Transform → Extract → Render → Write
 
 ### Key Rules
 
-- **Always run both test suites**: `make test` AND `make test-e2e` after any change.
+- **Always run both test suites**: `make test` AND `make test-e2e` after any change. `make test` mirrors CI — if it warns about skipped DB tests, run `make db` first and re-run.
 - **Always format after changes**: `poetry run black src/ tests/`
 - **Text columns only**: Always use `Text` (never `String/VARCHAR`) in PostgreSQL.
 - **No new migrations**: Modify the existing initial migration in-place during development.
