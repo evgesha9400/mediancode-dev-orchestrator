@@ -1,6 +1,6 @@
 # Frontend Plan: FK Field Auto-Creation
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans
+> **For Claude:** REQUIRED SUB-SKILL: Use autonomous-executing-plans
 
 ## Goal
 
