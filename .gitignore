@@ -14,3 +14,4 @@ db/*
 
 # OS
 .DS_Store
+.drift/
