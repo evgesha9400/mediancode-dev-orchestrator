@@ -36,6 +36,10 @@ After all tasks are complete:
 1. Run the full test suite
 2. Report results
 
+### Step 4: Archive Plans
+
+After verification passes, invoke `archive-initiative` to move the initiative's work plans to `docs/work/completed/`.
+
 **Do NOT:**
 - Use superpowers:finishing-a-development-branch
 - Use superpowers:using-git-worktrees (project-wide ban — all repos, not just frontend)
