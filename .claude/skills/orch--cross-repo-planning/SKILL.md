@@ -120,6 +120,22 @@ Commit directly to the current branch. The orchestrator manages branching — su
 
 Commit plan + prompt in each repo separately using the `/commit` skill.
 
+### Step 6: Include archive handover in plans
+
+Both backend and frontend plans MUST include a **final task** that invokes the `archive-initiative` skill to move the initiative directory to `docs/work/completed/`. Add this as the very last task in each plan:
+
+```markdown
+### Task N: Archive initiative
+
+**This task runs in the orchestrator repo, not in backend/ or frontend/.**
+
+After all implementation tasks and final verification pass, invoke the `archive-initiative` skill to move `docs/work/<initiative-name>/` to `docs/work/completed/<initiative-name>/`.
+
+This is idempotent — if the other repo's plan already archived it, this is a no-op.
+```
+
+The `archive-initiative` skill handles the move + commit. It is idempotent so both plans can include it safely — whichever finishes last will do the actual move.
+
 ## Plan Quality Checklist
 
 Each plan (backend and frontend) must pass ALL of these:
@@ -132,6 +148,7 @@ Each plan (backend and frontend) must pass ALL of these:
 - [ ] **Commit messages** follow the repo's conventional commit standard
 - [ ] **Line number hints** included where helpful (e.g., "~line 175, Field interface")
 - [ ] **Code snippets** show exact before/after for non-trivial changes
+- [ ] **Archive task** included as final task in both plans (invokes `archive-initiative` skill)
 
 ## Common Mistakes
 
@@ -145,3 +162,4 @@ Each plan (backend and frontend) must pass ALL of these:
 | Forgetting to write prompts | Prompts are mandatory — write them immediately after plans |
 | Frontend plan says "deploy backend first" without path | Include the exact file path to the backend plan |
 | Subagent creates a feature branch | Branch Policy section in prompt template prevents this — never omit it |
+| Plans missing archive task | Add `archive-initiative` as final task in both plans — idempotent, safe for both |
